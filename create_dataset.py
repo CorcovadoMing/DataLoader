@@ -10,7 +10,7 @@ from itertools import count
 def image_loader(path):
     dirlist = [ item for item in os.listdir(path) if os.path.isdir(os.path.join(path, item)) ]
     images = {}
-    for subfolder in dirlist[:5]:
+    for subfolder in dirlist:
         images[subfolder] = []
         imagePath = glob.glob(path + '/' + subfolder +'/*')
         im_array = numpy.array([numpy.array(Image.open(i).convert('RGB'), numpy.uint8) for i in imagePath])
