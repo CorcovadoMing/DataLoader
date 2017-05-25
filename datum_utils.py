@@ -1,4 +1,5 @@
 import datum_pb2
+import numpy as np
 
 def datum_to_array(datum):
     """Converts a datum to an array. Note that the label is not returned,
@@ -19,7 +20,7 @@ def array_to_datum(arr, label=None):
     if arr.ndim != 3:
         raise ValueError('Incorrect array shape.')
     datum = datum_pb2.Datum()
-    datum.channels, datum.height, datum.width = arr.shape
+    datum.height, datum.width, datum.channels = arr.shape
     if arr.dtype == np.uint8:
         datum.data = arr.tostring()
     else:
