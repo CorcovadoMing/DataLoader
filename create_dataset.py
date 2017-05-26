@@ -15,7 +15,7 @@ def image_loader(path):
     for subfolder in dirlist:
         images[subfolder] = []
         imagePath = glob.glob(path + '/' + subfolder +'/*')
-        im_array = numpy.array([numpy.array(Image.open(i).convert('RGB'), numpy.uint8) for i in imagePath])
+        im_array = numpy.array([numpy.array(Image.open(i).convert('RGB').resize((32, 32), Image.ANTIALIAS), numpy.uint8) for i in imagePath])
         images[subfolder].append(im_array)
     return images
 
