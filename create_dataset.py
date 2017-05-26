@@ -6,9 +6,11 @@ from datum_utils import *
 import datum_pb2
 import lmdb
 from itertools import count
+import logging
 
 def image_loader(path):
     dirlist = [ item for item in os.listdir(path) if os.path.isdir(os.path.join(path, item)) ]
+    logging.info("Create dataset with {0} classes".format(len(dirlist)))
     images = {}
     for subfolder in dirlist:
         images[subfolder] = []
@@ -30,6 +32,7 @@ def write_batch_lmdb(env, batch):
         write_batch_lmdb(env, batch)
 
 def create_db(images, db, batch_size=1024):
+    logging.info("Convert dataset into lmdb format")
     env = lmdb.open(db, map_async=True, max_dbs=0)
     i = count(0)
     l = count(0)
@@ -47,5 +50,6 @@ def create_db(images, db, batch_size=1024):
     env.close()
 
 if __name__ == '__main__':
+    logging.basicConfig(format='%(asctime)s %(message)s', datefmt='[%Y/%m/%d][%I:%M:%S %p] ', level=logging.INFO)
     images = image_loader('test_rawdata')
     create_db(images, 'test.lmdb')
