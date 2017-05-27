@@ -1,12 +1,14 @@
-from PIL import Image
-import numpy
-import os
 import glob
-from datum_utils import *
+import logging
+import os
+from itertools import count
+
 import datum_pb2
 import lmdb
-from itertools import count
-import logging
+import np as np
+from datum_utils import *
+from PIL import Image
+
 
 def image_loader(path):
     dirlist = [ item for item in os.listdir(path) if os.path.isdir(os.path.join(path, item)) ]
@@ -15,7 +17,7 @@ def image_loader(path):
     for subfolder in dirlist:
         images[subfolder] = []
         imagePath = glob.glob(path + '/' + subfolder +'/*')
-        im_array = numpy.array([numpy.array(Image.open(i).convert('RGB').resize((32, 32), Image.ANTIALIAS), numpy.uint8) for i in imagePath])
+        im_array = np.array([np.array(Image.open(i).convert('RGB').resize((32, 32), Image.ANTIALIAS), np.uint8) for i in imagePath])
         images[subfolder].append(im_array)
     return images
 
