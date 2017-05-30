@@ -1,5 +1,3 @@
-test_rawdata
-test.lmdb
-
 .DS_Store
 *.pyc
+test*

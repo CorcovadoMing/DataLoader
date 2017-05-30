@@ -5,7 +5,7 @@ from itertools import count
 
 import datum_pb2
 import lmdb
-import np as np
+import numpy as np
 from datum_utils import *
 from PIL import Image
 
@@ -25,6 +25,7 @@ def write_batch_lmdb(env, batch):
     try:
         with env.begin(write=True) as txn:
             for key, datum in batch:
+                print key
                 txn.put(key, datum.SerializeToString())
     except lmdb.MapFullError:
         txn.abort()
@@ -43,7 +44,7 @@ def create_db(images, db, batch_size=1024):
         label_no = l.next()
         for data in images[label][0]:
             datum = array_to_datum(data, label_no)
-            batch.append((str(i.next), datum))
+            batch.append((str(i.next()), datum))
             if len(batch) >= batch_size:
                 write_batch_lmdb(env, batch)
                 batch = []
@@ -54,4 +55,4 @@ def create_db(images, db, batch_size=1024):
 if __name__ == '__main__':
     logging.basicConfig(format='%(asctime)s %(message)s', datefmt='[%Y/%m/%d][%I:%M:%S %p] ', level=logging.INFO)
     images = image_loader('test_rawdata')
-    create_db(images, 'test.lmdb')
+    create_db(images, 'test')

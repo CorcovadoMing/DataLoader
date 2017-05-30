@@ -7,10 +7,10 @@ def datum_to_array(datum):
     """
     if len(datum.data):
         return np.fromstring(datum.data, dtype=np.uint8).reshape(
-            datum.channels, datum.height, datum.width)
+            datum.height, datum.width, datum.channels)
     else:
         return np.array(datum.float_data).astype(float).reshape(
-            datum.channels, datum.height, datum.width)
+            datum.height, datum.width, datum.channels)
 
 def array_to_datum(arr, label=None):
     """Converts a 3-dimensional array to datum. If the array has dtype uint8,
