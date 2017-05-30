@@ -25,7 +25,6 @@ def write_batch_lmdb(env, batch):
     try:
         with env.begin(write=True) as txn:
             for key, datum in batch:
-                print key
                 txn.put(key, datum.SerializeToString())
     except lmdb.MapFullError:
         txn.abort()
