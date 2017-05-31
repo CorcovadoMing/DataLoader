@@ -12,7 +12,7 @@ from PIL import Image
 
 def image_loader(path):
     dirlist = [ item for item in os.listdir(path) if os.path.isdir(os.path.join(path, item)) ]
-    logging.info("Create dataset with {0} classes".format(len(dirlist)))
+    logging.info("Create dataset with {0} classes from {1}".format(len(dirlist), path))
     images = {}
     for subfolder in dirlist:
         images[subfolder] = []
@@ -33,9 +33,10 @@ def write_batch_lmdb(env, batch):
         env.set_mapsize(new_limit)
         write_batch_lmdb(env, batch)
 
-def create_db(images, db, batch_size=1024):
-    logging.info("Convert dataset into lmdb format")
-    env = lmdb.open(db + '.lmdb', map_async=True, max_dbs=0)
+def create_lmdb(images, db, batch_size=1024):
+    output = db + '.lmdb'
+    logging.info("Convert dataset into lmdb format to {0}".format(output))
+    env = lmdb.open(output, map_async=True, max_dbs=0)
     i = count(0)
     l = count(0)
     batch = []
@@ -55,4 +56,4 @@ if __name__ == '__main__':
     test_dataset = 'caltech101'
     logging.basicConfig(format='%(asctime)s %(message)s', datefmt='[%Y/%m/%d][%I:%M:%S %p] ', level=logging.INFO)
     images = image_loader(test_dataset)
-    create_db(images, test_dataset)
+    create_lmdb(images, test_dataset)
