@@ -35,7 +35,7 @@ def write_batch_lmdb(env, batch):
 
 def create_db(images, db, batch_size=1024):
     logging.info("Convert dataset into lmdb format")
-    env = lmdb.open(db, map_async=True, max_dbs=0)
+    env = lmdb.open(db + '.lmdb', map_async=True, max_dbs=0)
     i = count(0)
     l = count(0)
     batch = []
@@ -52,6 +52,7 @@ def create_db(images, db, batch_size=1024):
     env.close()
 
 if __name__ == '__main__':
+    test_dataset = 'caltech101'
     logging.basicConfig(format='%(asctime)s %(message)s', datefmt='[%Y/%m/%d][%I:%M:%S %p] ', level=logging.INFO)
-    images = image_loader('test_rawdata')
-    create_db(images, 'test')
+    images = image_loader(test_dataset)
+    create_db(images, test_dataset)
