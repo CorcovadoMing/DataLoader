@@ -15,5 +15,9 @@ if __name__ == '__main__':
         parser.print_help()
     else:
         db_name = args.train.split('/')[-1]
+        if not db_name:
+            db_name = args.train.split('/')[-2]
+        if not db_name:
+            db_name = args.train
         images = image_loader(args.train)
         create_lmdb(images, args.output + '/' + db_name)
