@@ -10,14 +10,14 @@ from datum_utils import *
 from PIL import Image
 
 
-def image_loader(path):
+def image_loader(path, scale=32):
     dirlist = [ item for item in os.listdir(path) if os.path.isdir(os.path.join(path, item)) ]
     logging.info("Create dataset with {0} classes from {1}".format(len(dirlist), path))
     images = {}
     for subfolder in dirlist:
         images[subfolder] = []
         imagePath = glob.glob(path + '/' + subfolder +'/*')
-        im_array = np.array([np.array(Image.open(i).convert('RGB').resize((32, 32), Image.ANTIALIAS), np.uint8) for i in imagePath])
+        im_array = np.array([np.array(Image.open(i).convert('RGB').resize((scale, scale), Image.ANTIALIAS), np.uint8) for i in imagePath])
         images[subfolder].append(im_array)
     return images
 
