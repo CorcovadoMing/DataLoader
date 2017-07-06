@@ -6,7 +6,7 @@ from create_dataset import *
 if __name__ == '__main__':
     logging.basicConfig(format='%(asctime)s %(message)s', datefmt='[%Y/%m/%d][%I:%M:%S %p] ', level=logging.INFO)
     parser = argparse.ArgumentParser(description='Data Loader')
-    parser.add_ardument('--type', help='pickle or lmdb')
+    parser.add_argument('--type', help='pickle or lmdb')
     parser.add_argument('--train', help='training dir')
     parser.add_argument('--resize', help='resize image')
     parser.add_argument('--output', help='output dataset dir')
