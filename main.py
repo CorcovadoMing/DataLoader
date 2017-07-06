@@ -26,4 +26,4 @@ if __name__ == '__main__':
         if args.type == 'lmdb':
             create_lmdb(images, args.output + '/' + db_name)
         elif args.type == 'pickle':
-            create_pickle(images, args.output + '/' db_name)
+            create_pickle(images, args.output + '/' + db_name)
