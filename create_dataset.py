@@ -5,6 +5,7 @@ from itertools import count
 
 import datum_pb2
 import lmdb
+import pickle
 import numpy as np
 from datum_utils import *
 from PIL import Image
@@ -52,8 +53,23 @@ def create_lmdb(images, db, batch_size=1024):
     batch = []
     env.close()
 
+def create_pickle(images, db):
+    output = db + '.pkl'
+    logging.info("Convert dataset into pkl format to {0}".format(output))
+    x = []
+    y = []
+    for label in images:
+        for data in images[label][0]:
+            x.append(data)
+            y.append(label)
+    x = np.array(x)
+    y = np.array(y)
+    pickle.dump((x,y), open(output, 'wb'))
+
+
 if __name__ == '__main__':
     test_dataset = 'caltech101'
     logging.basicConfig(format='%(asctime)s %(message)s', datefmt='[%Y/%m/%d][%I:%M:%S %p] ', level=logging.INFO)
     images = image_loader(test_dataset)
     create_lmdb(images, test_dataset)
+    create_pickle(images, test_dataset)
