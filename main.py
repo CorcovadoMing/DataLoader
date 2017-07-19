@@ -6,6 +6,7 @@ from create_dataset import *
 if __name__ == '__main__':
     logging.basicConfig(format='%(asctime)s %(message)s', datefmt='[%Y/%m/%d][%I:%M:%S %p] ', level=logging.INFO)
     parser = argparse.ArgumentParser(description='Data Loader')
+    parser.add_argument('-name', help='database name')
     parser.add_argument('-type', help='pickle or lmdb')
     parser.add_argument('-train', help='training dir')
     parser.add_argument('-test', help='testing dir')
@@ -23,11 +24,7 @@ if __name__ == '__main__':
     else:
         train, test = None, None
 
-        db_name = args.train.split('/')[-1]
-        if not db_name:
-            db_name = args.train.split('/')[-2]
-        if not db_name:
-            db_name = args.train
+        db_name = args.name
 
         train = image_loader(args.train, int(args.resize))
 
