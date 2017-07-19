@@ -33,7 +33,7 @@ if __name__ == '__main__':
 
         if not args.test:
             # split from training data
-            train, test = split_testing(train, args.split)
+            train, test = split_testing(train, float(args.split))
         elif not args.split:
             # load from testing folder
             test = image_loader(args.test, int(args.resize))
