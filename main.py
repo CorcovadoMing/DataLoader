@@ -13,6 +13,7 @@ if __name__ == '__main__':
     parser.add_argument('-resize', help='resize image')
     parser.add_argument('-output', help='output dataset dir')
     parser.add_argument('-split', help='split train/test ratio')
+    parser.add_argument('-channel', help='3 for color img / 1 for grayscale')
     args = parser.parse_args()
 
     if not args.train or not args.output or not args.type:
@@ -26,14 +27,14 @@ if __name__ == '__main__':
 
         db_name = args.name
 
-        train = image_loader(args.train, int(args.resize))
+        train = image_loader(args.train, int(args.resize), int(args.channel))
 
         if not args.test:
             # split from training data
             train, test = split_testing(train, float(args.split))
         elif not args.split:
             # load from testing folder
-            test = image_loader(args.test, int(args.resize))
+            test = image_loader(args.test, int(args.resize), int(args.channel))
 
         # Make sure the train and test are holded
         if not train or not test:
